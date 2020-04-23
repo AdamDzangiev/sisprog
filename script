@@ -1,0 +1,22 @@
+#!/binbash
+#cd30ed626790
+echo $PWD
+until [ -f "$cfile" ] ; do
+    if [ "$try" ] ; then
+        echo "Entered file name do not exist"
+        try=1
+    fi
+    read -p 'Enter the file name >>> ' cfile
+done
+read -p 'Enter the check date >>> ' cdate
+if [ "$(date -r "$cfile" +%s)" -gt "$(date --date="$cdate" +%s)" ] ; then
+    echo "File $cfile has been modified after $cdate"
+        echo "File inode:"
+        stat --format=%i $cfile
+        exit 120
+else
+    echo "No modifications for file $cfile after $cdate"
+        echo "File inode" 
+        stat --format=%i $cfile
+        exit 0
+fi
